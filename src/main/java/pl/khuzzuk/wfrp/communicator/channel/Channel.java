@@ -2,7 +2,6 @@ package pl.khuzzuk.wfrp.communicator.channel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.messaging.Cancellable;
@@ -10,7 +9,6 @@ import pl.khuzzuk.wfrp.communicator.event.Event;
 import pl.khuzzuk.wfrp.communicator.user.User;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,11 +40,5 @@ public class Channel implements AutoCloseable {
     @Override
     public void close() {
         subscriptions.forEach(bus::unSubscribe);
-    }
-
-    @Scheduled(fixedRate = 1000)
-    public void emitTestMessage() {
-        log.info("test message");
-        bus.message(MESSAGE).withContent(Message.builder().text("test message").time(LocalDateTime.now()).build()).send();
     }
 }
